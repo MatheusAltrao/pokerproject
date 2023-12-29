@@ -56,34 +56,31 @@ export default function Home() {
     };
 
     const handleVerifyCombination = () => {
-        const sortedCards = cards
-            .slice()
-            .sort((a, b) => Number(a.rank) - Number(b.rank));
-        console.log(sortedCards);
+        cards.sort()
 
-        const resultado = contarRepeticoes(sortedCards);
+        let ranksArray: number[] = []
+        
+        cards.forEach(card => {
+            ranksArray.push(Number(card.rank))
+        });
 
-        console.log('Quantidade de repetições:');
-        for (const [numero, repeticoes] of resultado) {
-            console.log(`${numero}: ${repeticoes} vezes`);
-        }
+        let result = countOccurrences(ranksArray)
+        console.log(result)
     };
 
-    function contarRepeticoes(vetor: any): Map<number, number> {
-        const mapaRepeticoes = new Map<number, number>();
-
-        for (const numero of vetor) {
-            if (mapaRepeticoes.has(numero)) {
-                // Se o número já estiver no mapa, incrementa a contagem
-                mapaRepeticoes.set(numero, mapaRepeticoes.get(numero)! + 1);
-            } else {
-                // Se o número não estiver no mapa, adiciona com contagem 1
-                mapaRepeticoes.set(numero, 1);
-            }
+    function countOccurrences(numbers: any) {
+        const counts: any = {};
+        for (const number of numbers) {
+            counts[number] ? counts[number]++ : counts[number] = 1
         }
 
-        return mapaRepeticoes;
-    }
+        const results = Object.entries(counts).map(([number, count]) => ({
+          numero: number,
+          quantidade: count,
+        }));
+      
+        return results;
+      }
 
     return (
         <div className='min-h-screen w-full bg-zinc-950 flex flex-col items-center justify-center gap-8 '>
